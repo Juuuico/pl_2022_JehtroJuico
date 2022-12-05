@@ -3,56 +3,88 @@ import java.util.Scanner;
 public class Act3 {
     public static void main(String[] args) {
 
-        Scanner sc = new Scanner(System.in);
-
-        String data_type = "";
-        String identifier = "";
-        String assignment_operator = "";
-        String value = "";
-        char delimiter = ' ';
-
-        System.out.print("Enter Source Language: ");
-        String[] input = sc.nextLine().split(" ");
-
-
-        //short input
-        int n = input.length;
-        if(n == 2) {
-            data_type = input[0];
-            identifier = input[1].substring(0,input[1].length()-1);
-            delimiter = input[1].charAt(input[1].length()-1);
-
-        }
-        //long input;
-        else if(n == 4) {
-            data_type = input[0];
-            identifier = input[1];
-            assignment_operator = input[2];
-            value = input[3].equalsIgnoreCase("string") ? input[3].substring(1,input[3].length()-2)
-                    : input[3].substring(0,input[3].length()-1);
-            delimiter = input[3].charAt(input[3].length()-1);
-        }
-        //string with word input
-        else  {
-            String[] str = new String[n - 3];
-            for(int i = 0; i < n-3; i++) {
-                str[i] = input[i+3];
-            }
-            String strVal = String.join(" ", str);
-            data_type = input[0];
-            identifier = input[1];
-            assignment_operator = input[2];
-            value = strVal.substring(1,strVal.length()-2);
-            delimiter = strVal.charAt(strVal.length()-1);
-        }
+	// isAlpha checks if character is a letter.
+	public static boolean isAlpha(char c) {
+	// 'A' <= c <= 'Z' or 'a' <= c <= 'z'
+		return (c >= 'A' && c  <= 'Z') || (c  >='a' && c <= 'z');
+	}
+	// isNumber checks if character is a number.
+	public static boolean isNumber(char c) {
+	// '0' <= c <= '9'
+		return (c  >= '0' && c  <= '9');
+	}
 
 
-        System.out.println( data_type+ " <data_type>");
-        System.out.println(identifier+ " <identifier> ");
-        System.out.println(assignment_operator+ " <assignment_operator>");
-        System.out.println(value+ " <value>");
-        System.out.println(delimiter+ " <delimiter>");
+	public static void main(String[] args) {
+
+		Scanner sc = new Scanner(System.in);
+		System.out.print("enter : ");
+		String input = sc.nextLine();
+		
+		
+		boolean checker = false;     
+		for(int x = 0 ; x < input.length(); x++){
+			
+			String temp = "";
+			// 1. Collect all the letters.
+		  
+			if (input.charAt(x) == '\"' ) {
+				x++;
+				while (input.charAt(x) != '\"' ){
+					x++;
+				}
+			if(input.charAt(x) == '\'') {
+				x++;
+				while (input.charAt(x) != '\'' ){
+					x++;
+				}
+				
+				}	
+			}
+			
+			String check = "";
+			// 2. Is the character a letter or a number?
+			if (isAlpha(input.charAt(x)) || isNumber(input.charAt(x))) {
+							// 2.1. Collect all the letters
+				while (isAlpha(input.charAt(x)) || isNumber(input.charAt(x))) {
+					temp += input.charAt(x) + "";
+					x++;
+				}
+				// 2.2. is this a data type?
+				if(temp.equals("int") || temp.equals("String") || temp.equals("char") || temp.equals("double") ) {
+					// 2.2.1. print <data_type>
+					System.out.print("<data_type>");
+					
+					continue;
+					
+				}
+							
+				if (checker) {
+					System.out.print("<value>");
+					
+				} else {
+					// if it's identifier, meaning the next is always value.
+					checker = true;
+					System.out.print("<identifier>");
+		
+				}
+					// there's no continue.
+			}
+			// 3. is this a assignment operator?
+			if (input.charAt(x) == '=') {
+				System.out.print("<assignment_operator>");
+				
+				continue; 
+			} 
+			
+			// 4. is this a delimiter?
+			if (input.charAt(x) == ';') {
+				System.out.print("<delimiter>");
+				
+			} 
+			
+		}
+		
+	}
     }
-
-}
 
