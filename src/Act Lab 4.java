@@ -1,5 +1,3 @@
-package Tipay;
-
 import java.util.Arrays.*;
 import java.util.regex.*;
 import java.util.Scanner;
